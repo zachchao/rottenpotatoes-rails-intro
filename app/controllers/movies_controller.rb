@@ -12,15 +12,17 @@ class MoviesController < ApplicationController
 
   def index
     if !session.has_key?(:ratings)
-      session[:rating] = Movie.uniq.pluck(:rating)
+      session[:ratings] = Movie.uniq.pluck(:rating)
+      flash[:notice] = session.keys.to_s
     end
 
     @all_ratings = Movie.uniq.pluck(:rating)
 
     if params.has_key?(:ratings)
       @clicked_ratings = params[:ratings].keys
+      session[:ratings] = @clicked_ratings
     else
-      @clicked_ratings = session[:rating]
+      @clicked_ratings = session[:ratings]
     end
 
     if params.has_key?(:sort_by)

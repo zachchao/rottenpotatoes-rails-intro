@@ -14,12 +14,12 @@
 %table#movies.table.table-striped.col-md-12
   %thead
     %tr
-      %th{class: @sort_by == 'title' ? 'bg-warning' : 'hilite'}
+      %th{class: @sort_by == 'title' ? 'hilite' : 'bg-warning'}
         %a{:href => "/?sort_by=title", :id => 'title_header'} Movie Title
-      %th.hilite Rating
-      %th{class: @sort_by == 'release_date' ? "bg-warning" : "hilite"}
+      %th.bg-warning Rating
+      %th{class: @sort_by == 'release_date' ? "hilite" : "bg-warning"}
         %a{:href => "/?sort_by=release_date", :id => 'release_date_header'} Release Date
-      %th.hilite More Info
+      %th.bg-warning More Info
   %tbody
     - @movies.each do |movie|
       %tr
