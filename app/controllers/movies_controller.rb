@@ -11,19 +11,31 @@ class MoviesController < ApplicationController
   end
 
   def index
-    puts "hello"
+    if !session.has_key?(:ratings)
+      session[:rating] = Movie.uniq.pluck(:rating)
+    end
+
+    @all_ratings = Movie.uniq.pluck(:rating)
+
+    if params.has_key?(:ratings)
+      @clicked_ratings = params[:ratings].keys
+    else
+      @clicked_ratings = session[:rating]
+    end
+
     if params.has_key?(:sort_by)
       @sort_by = params[:sort_by]
+      session[:sort_by] = @sort_by
     else
-      @sort_by = ""
+      @sort_by = session[:sort_by]
     end
 
     if @sort_by == 'title'
-      @movies = Movie.all.order(title: :asc)
+      @movies = Movie.with_ratings(@clicked_ratings).order(title: :asc)
     elsif @sort_by == 'release_date'
-      @movies = Movie.all.order(release_date: :asc)
+      @movies = Movie.with_ratings(@clicked_ratings).order(release_date: :asc)
     else
-      @movies = Movie.all
+      @movies = Movie.with_ratings(@clicked_ratings)
     end
   end
 
