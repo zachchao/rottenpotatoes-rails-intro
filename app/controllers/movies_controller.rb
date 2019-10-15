@@ -27,6 +27,13 @@ class MoviesController < ApplicationController
       session[:ratings] = @clicked_ratings
     else
       @clicked_ratings = session[:ratings]
+      if @clicked_ratings
+        params[:ratings] = {}
+        @clicked_ratings.each do |rating|
+          params[:ratings][rating] = 1
+        end
+        @change = true
+      end
     end
 
     if params.has_key?(:sort_by)
@@ -37,6 +44,10 @@ class MoviesController < ApplicationController
       session[:sort_by] = @sort_by
     else
       @sort_by = session[:sort_by]
+      if @sort_by
+        params[:sort_by] = @sort_by
+        @change = true
+      end
     end
 
     if @change
