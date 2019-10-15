@@ -17,9 +17,13 @@ class MoviesController < ApplicationController
     end
 
     @all_ratings = Movie.uniq.pluck(:rating)
+    @change = false
 
     if params.has_key?(:ratings)
       @clicked_ratings = params[:ratings].keys
+      if @clicked_ratings != session[:ratings]
+        @change = true
+      end
       session[:ratings] = @clicked_ratings
     else
       @clicked_ratings = session[:ratings]
@@ -27,9 +31,16 @@ class MoviesController < ApplicationController
 
     if params.has_key?(:sort_by)
       @sort_by = params[:sort_by]
+      if @sort_by != session[:sort_by]
+        @change = true
+      end
       session[:sort_by] = @sort_by
     else
       @sort_by = session[:sort_by]
+    end
+
+    if @change
+      redirect_to movies_path(params)
     end
 
     if @sort_by == 'title'

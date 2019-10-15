@@ -8,8 +8,7 @@
     = check_box_tag "ratings[#{rating}]", 1, rating.in?(@clicked_ratings), :id => "ratings_#{rating}"
   = submit_tag 'Refresh', :class => 'btn btn-primary', :id => 'ratings_submit'
 
-#{@test}
-
+#{@change}
 
 %table#movies.table.table-striped.col-md-12
   %thead
